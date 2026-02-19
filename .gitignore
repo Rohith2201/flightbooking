@@ -34,3 +34,5 @@ build/
 
 /springapp/target
 /springapp/src/main/resources/application.properties
+/angularapp/node_modules
+/angularapp/dist
