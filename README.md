@@ -1,6 +1,16 @@
 # Flight Booking (Angular + Spring Boot)
-
 Full-stack flight booking application with an Angular frontend and a Spring Boot backend secured using JWT.
+
+![Java Badge](https://img.shields.io/badge/Backend-Java%20%2F%20SpringBoot-blue?style=for-the-badge&logo=springboot)
+![Hibernate Badge](https://img.shields.io/badge/ORM-Hibernate-yellow?style=for-the-badge&logo=hibernate)
+![Angular Badge](https://img.shields.io/badge/Frontend-Angular-red?style=for-the-badge&logo=angular)
+[![GitHub repo size](https://img.shields.io/github/repo-size/rohith2201/SmartMart?logo=github&style=for-the-badge)](https://github.com/rohith2201/flightbooking)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+![GitHub contributors](https://img.shields.io/github/contributors/rohith2201/flightbooking?style=for-the-badge)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/t/rohith2201/flightbooking?style=for-the-badge)
+
+
+
 
 ## Monorepo Structure
 
