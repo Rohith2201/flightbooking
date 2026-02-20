@@ -1,1 +1,56 @@
-<p>flight-list works!</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<div class="main-content" style="background-color: white;">
+  <h2 style="color: #0077cc; text-align: center;">Flight List</h2>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <div class="filters">
+    <input type="text" placeholder="From" [(ngModel)]="fromLocation" />
+    <input type="text" placeholder="To" [(ngModel)]="toLocation" />
+    <input type="number" placeholder="Min Price" [(ngModel)]="minPrice" />
+    <input type="number" placeholder="Max Price" [(ngModel)]="maxPrice" />
+    <button (click)="applyFilters()">Search</button>
+  </div>
+  <div class="flight-table">
+    <div class="flight-header">
+
+      <div class="flight-cell">Flight Number</div>
+      <div class="flight-cell">Airline</div>
+      <div class="flight-cell">Departure</div>
+      <div class="flight-cell">Arrival</div>
+      <div class="flight-cell">Departure Time</div>
+      <div class="flight-cell">Arrival Time</div>
+      <div class="flight-cell">Availabile Seats</div>
+      <div class="flight-cell">Price</div>
+      <div class="flight-cell">Actions</div>
+    </div>
+    <div class="flight-row" *ngFor="let flight of filteredFlights">
+
+      <div class="flight-cell">{{ flight.flightNumber }}</div>
+      <div class="flight-cell airline-cell">
+        <img *ngIf="getAirlineLogo(flight.airline)" [src]="getAirlineLogo(flight.airline)" [alt]="flight.airline"
+          class="airline-logo" />
+        <!-- {{ flight.airline }} -->
+      </div>
+      <!-- <div class="flight-cell">{{ flight.airline }}</div> -->
+      <div class="flight-cell">{{ flight.departureLocation }}</div>
+      <div class="flight-cell">{{ flight.arrivalLocation }}</div>
+      <div class="flight-cell">{{ flight.departureTime }}</div>
+      <div class="flight-cell">{{ flight.arrivalTime  }}</div>
+      <div class="flight-cell">{{ flight.totalSeats }}</div>
+      <div class="flight-cell">{{ flight.price | currency:'INR' }}</div>
+      <div class="flight-cell">
+
+        <div *ngIf="userRole == 'ADMIN'">
+          <button class="btn" (click)="updateFlight(flight.flightId)">Update</button>
+          <button class="delete-btn" (click)="deleteFlight(flight.flightId)">Delete</button>
+        </div>
+        <div *ngIf="userRole == 'USER'">
+          <button class="book-btn" (click)="navigateToBooking(flight.flightId)">Book</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</html>

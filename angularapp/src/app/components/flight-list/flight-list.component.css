@@ -1,0 +1,195 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: white;
+  }
+
+  
+  header {
+    background-color: #0077cc;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .nav-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .nav-buttons button {
+    background-color: white;
+    color: #0077cc;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .nav-buttons button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .main-content {
+    padding: 20px;
+  }
+  
+  .flight-table {
+    display: grid;
+    grid-template-columns: repeat(9, minmax(120px, 1fr));
+    background-color: white;
+    border-radius: 10px;
+    overflow-x: auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .flight-header, .flight-row {
+    display: contents;
+  }
+  .book-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .flight-cell {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    text-align: left;
+  }
+  
+  .flight-header .flight-cell {
+    background-color: #0077cc;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .flight-actions {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    color: white;
+    background-color: #0077cc;
+    cursor: pointer;
+  }
+  
+  .btn:hover {
+    background-color: #005fa3;
+  }
+  .delete-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .delete-btn:hover {
+    background-color: rgb(219, 46, 46);
+  }
+  
+  @media (max-width: 768px) {
+    .flight-table {
+      grid-template-columns: repeat(8, minmax(100px, 1fr));
+    }
+  }
+
+  /* Error message styling */
+.error-message {
+  color: #721c24;
+  background-color: #f8d7da;
+  padding: 12px 20px;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Filters container */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Input fields */
+.filters input[type="text"],
+.filters input[type="date"],
+.filters input[type="number"] {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  width: 200px;
+  transition: border-color 0.3s ease;
+}
+
+.filters input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Search button */
+.filters button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.filters button:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters input,
+  .filters button {
+    width: 100%;
+  }
+}
+.airline-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  
+  .airline-logo {
+    width: 94px;
+    height: auto;
+    object-fit: contain;
+  }

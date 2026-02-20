@@ -1,1 +1,68 @@
-<p>navbar works!</p>
+<nav>
+  <div class="site-title">
+    <a routerLink="/" style="text-decoration: none; color: inherit;">
+      SkyBooker
+    </a>
+  </div>
+
+  <ul class="nav-links">
+    <ng-container *ngIf="!isUserLoggedIn()">
+      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+      <li><a routerLink="/register" routerLinkActive="active">Register</a></li>
+      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+    </ng-container>
+    <ng-container *ngIf="isUserLoggedIn()">
+      <li><span>Welcome, {{ service.getAuthenticatedUser()}}! ({{ service.getRole() }})</span></li>
+      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+
+      <li *ngIf="userRole === 'isAdmin()'">
+        <div class="dropdown" (mouseenter)="showDropdown = true" (mouseleave)="showDropdown = false">
+          <span class="dropdown-toggle">Manage Flights</span>
+          <ul class="dropdown-menu" *ngIf="showDropdown">
+            <li><a routerLink="/add-flight" routerLinkActive="active">Add Flight</a></li>
+            <li><a routerLink="/flight-list" routerLinkActive="active">Manage Flights</a></li>
+          </ul>
+        </div>
+      </li>
+      <li *ngIf="userRole === 'isAdmin()'">
+        <a routerLink="/manage-booking" routerLinkActive="active">Manage Booking</a>
+      </li>
+
+      <ng-container *ngIf="isCustomer()">
+        <li><a routerLink="/flight-list">Book Flight</a></li>
+        <li><a routerLink="/my-history">History</a></li>
+      </ng-container>      
+      <ng-container *ngIf="isAdmin()">
+        <li>
+          <div class="dropdown" (mouseenter)="showDropdown = true" (mouseleave)="showDropdown = false">
+            <span class="dropdown-toggle">Manage Flights</span>
+            <ul class="dropdown-menu" *ngIf="showDropdown">
+              <li><a routerLink="/add-flight">Add Flight</a></li>
+              <li><a routerLink="/flight-list">Manage Flights</a></li>
+            </ul>
+          </div>
+        </li>
+        <li><a routerLink="/booking">Manage Booking</a></li>
+      </ng-container>
+
+
+      <li>
+        <button  (click)="showLogoutPopup = true" style="background-color: rgb(255, 146, 107);">Logout</button>
+      </li>
+    </ng-container>
+
+  </ul>
+</nav>
+
+
+
+<div class="logout-popup-overlay" *ngIf="showLogoutPopup">
+  <div class="logout-popup">
+    <p>Are you sure you want to log out?</p>
+    <div class="popup-buttons">
+      <button style="background-color: blue;" (click)="logout()">Confirm</button>
+      <button style="background-color: blue;" (click)="cancelLogout()">Cancel</button>
+    </div>
+  </div>
+</div>
+

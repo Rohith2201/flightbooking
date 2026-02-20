@@ -1,1 +1,22 @@
-<p>my-history works!</p>
+<h2 class="history-title">My Booking History</h2>
+
+<div *ngIf="bookingHistory.length === 0" class="no-bookings">
+  <p>You have no past bookings.</p>
+</div>
+
+<ul class="booking-list" *ngIf="bookingHistory.length > 0">
+  <li *ngFor="let booking of bookingHistory" class="booking-card">
+    <div class="booking-details">
+      <p><strong>Booking ID:</strong> {{ booking[0] }}</p>
+      <p><strong>Booking Date:</strong> {{ booking[1] | date: 'mediumDate' }}</p>
+      <p><strong>Passengers :</strong> {{ booking[2] }}</p>
+      <p><strong>Status:</strong> 
+        <span [ngClass]="{
+          'status-confirmed': booking.status === 'CONFIRMED',
+          'status-cancelled': booking.status === 'CANCELLED',
+          'status-completed': booking.status === 'Completed'
+        }">{{ booking[3] }}</span>
+      </p>
+    </div>
+  </li>
+</ul>

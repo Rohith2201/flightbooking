@@ -1,0 +1,63 @@
+.history-title {
+    text-align: center;
+    margin: 30px 0 20px;
+    font-size: 2rem;
+    color: #2c3e50;
+  }
+  
+  .no-bookings {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #888;
+    margin-top: 40px;
+  }
+  
+  .booking-list {
+    list-style: none;
+    padding: 0;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .booking-card {
+    background: #f9f9f9;
+    border-left: 5px solid #007BFF;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+  }
+  
+  .booking-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .booking-details p {
+    margin: 8px 0;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .status-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+  }
+  
+  .status-confirmed {
+    color: #27ae60;
+  }
+  
+  .status-cancelled {
+    color: #e74c3c;
+  }
+  
+  .status-completed {
+    color: #2980b9;
+  }
+  
+  .material-icons {
+    font-size: 18px;
+  }

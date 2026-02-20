@@ -1,1 +1,76 @@
-<p>add-flight works!</p>
+<div class="header">
+  <h1>Add Flight</h1>
+</div>
+<div class="container">
+  <div class="form-section">
+    <h2 class="text-primary text-center">Add Flight</h2>
+    <form [formGroup]="flightForm" (ngSubmit)="addNewFlight()">
+      
+      <label for="flightNumber">Flight Number:</label>
+      <input type="text" id="flightNumber" formControlName="flightNumber" />
+      <div *ngIf="f.flightNumber.invalid && (f.flightNumber.touched || f.flightNumber.dirty)" class="error">
+        Please Enter a valid Flight Number
+      </div>
+
+      <label for="airline">Airline:</label>
+      <input type="text" id="airline" formControlName="airline" />
+      <div *ngIf="f.airline.invalid && (f.airline.touched || f.airline.dirty)" class="error">
+        Please Enter a valid airline
+      </div>
+
+      <label for="departureLocation">Departure Location:</label>
+      <input type="text" id="departureLocation" formControlName="departureLocation" />
+      <div *ngIf="f.departureLocation.invalid && (f.departureLocation.touched || f.departureLocation.dirty)" class="error">
+        Please Enter a valid Departure Location
+      </div>
+
+      <label for="arrivalLocation">Arrival Location:</label>
+      <input type="text" id="arrivalLocation" formControlName="arrivalLocation" />
+      <div *ngIf="f.arrivalLocation.invalid && (f.arrivalLocation.touched || f.arrivalLocation.dirty)" class="error">
+        Please Enter a valid Arrival Location
+      </div>
+
+      <div *ngIf="flightForm.errors?.sameLocation && (flightForm.touched || flightForm.dirty)" class="error">
+        Departure and Arrival locations cannot be the same.
+      </div>
+
+      <label for="departureTime">Departure Time:</label>
+      <input type="datetime-local" id="departureTime" formControlName="departureTime" />
+      <div *ngIf="f.departureTime.invalid && (f.departureTime.touched || f.departureTime.dirty)" class="error">
+        Please Enter a valid Departure Time
+      </div>
+
+      <label for="arrivalTime">Arrival Time:</label>
+      <input type="datetime-local" id="arrivalTime" formControlName="arrivalTime" />
+      <div *ngIf="f.arrivalTime.invalid && (f.arrivalTime.touched || f.arrivalTime.dirty)" class="error">
+        Please Enter a valid Arrival Time
+      </div>
+
+      <div *ngIf="flightForm.errors?.pastTime && (flightForm.touched || flightForm.dirty)" class="error">
+        Departure and Arrival times must be in the future.
+      </div>
+      
+      <div *ngIf="flightForm.errors?.invalidSequence && (flightForm.touched || flightForm.dirty)" class="error">
+        Arrival time must be after Departure time.
+      </div>
+
+      <label for="price">Price:</label>
+      <input type="number" id="price" formControlName="price" min="0" />
+      <div *ngIf="f.price.invalid && (f.price.touched || f.price.dirty)" class="error">
+        Please Enter a valid Price
+      </div>
+
+      <label for="totalSeats">Total Seats:</label>
+      <input type="number" id="totalSeats" formControlName="totalSeats" min="1" />
+      <div *ngIf="f.totalSeats.invalid && (f.totalSeats.touched || f.totalSeats.dirty)" class="error">
+        Please Enter a valid Seats
+      </div>
+
+      <button type="submit">Add Flight</button>
+    </form>
+  </div>
+
+  <div class="side-image" >
+    <img src="https://images.unsplash.com/photo-1559268950-2d7ceb2efa3a?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YWlycGxhbmV8ZW58MHx8MHx8fDA%3D&fm=jpg&q=60&w=3000" />
+  </div>
+</div>

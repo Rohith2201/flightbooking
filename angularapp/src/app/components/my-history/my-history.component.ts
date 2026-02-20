@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Booking } from 'src/app/models/booking.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { BookingService } from 'src/app/services/booking.service';
 
 @Component({
   selector: 'app-my-history',
@@ -7,9 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyHistoryComponent implements OnInit {
 
-  constructor() { }
+  bookingHistory: Booking[] = [];
+
+  constructor(private bookingService: BookingService, private as : AuthService) { }
+  loadBookings() {
+    this.bookingService.getBookingByUserId(this.as.getAuthenticatedUserId()).subscribe((data) => {
+      console.log(this.bookingHistory);
+      this.bookingHistory = data;
+    });
+  }
 
   ngOnInit(): void {
+    this.loadBookings()
   }
 
 }

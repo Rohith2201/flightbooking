@@ -1,1 +1,49 @@
-<p>booking-form works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SkyBooker - Booking Form</title>
+  </head>
+
+<body>
+
+
+  <div class="container">
+    
+    <div *ngIf="flightDetails" class="flight-info">
+      <h3>Flight Details</h3>
+      <div class="flight-card">
+        <p><strong>Flight Number:</strong> {{ flightDetails.flightNumber }}</p>
+        <p><strong>Airline:</strong> {{ flightDetails.airline }}</p>
+        <p><strong>Departure:</strong> {{ flightDetails.departureLocation }} at {{ flightDetails.departureTime | date:'short' }}</p>
+        <p><strong>Arrival:</strong> {{ flightDetails.arrivalLocation }} at {{ flightDetails.arrivalTime | date:'short' }}</p>
+        <p><strong>Price:</strong> {{ flightDetails.price | currency: 'INR' }}</p>
+        <p><strong>Available Seats:</strong> {{ flightDetails.totalSeats }}</p>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <img *ngIf="getAirlineLogo(flightDetails.airline)" [src]="getAirlineLogo(flightDetails.airline)" [alt]="flightDetails.airline" class="airline-logo" />
+      <h2>Book a Flight with Us {{flightDetails.airline}}</h2>
+      <form (ngSubmit)="addBooking()" #bookingForm="ngForm">
+        <input type="hidden" name="flightId" [(ngModel)]="booking.flightId" />
+        <input type="hidden" name="userId" [(ngModel)]="booking.userId" />
+
+        <label for="bookingDate">Booking Date *</label>
+        <input type="date" id="bookingDate" name="bookingDate" [(ngModel)]="booking.bookingDate" required />
+
+        <label for="numberOfPassengers">Number of Passengers *</label>
+        <input type="number" id="numberOfPassengers" name="numberOfPassengers" [(ngModel)]="booking.numberOfPassengers" required />
+
+        <button type="submit" [disabled]="bookingForm.invalid">Submit Booking</button>
+        <button type="button" (click)="cancelBooking()" style="margin-left: 10px; background-color: #dc3545;">
+            Cancel Booking
+          </button>
+          
+      </form>
+    </div>
+
+  </div>
+
+</body>
+</html>
