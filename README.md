@@ -1,37 +1,37 @@
-# Flight Booking Backend (Spring Boot)
+# Flight Booking (Angular + Spring Boot)
 
-Spring Boot backend API for a flight booking system with JWT authentication, flight management, and booking operations.
+Full-stack flight booking application with an Angular frontend and a Spring Boot backend secured using JWT.
+
+## Monorepo Structure
+
+- `angularapp/` - Angular 10 frontend (runs on port `8081`)
+- `springapp/` - Spring Boot backend API (runs on port `8080`)
 
 ## Tech Stack
 
-- Java 17
-- Spring Boot 3.0.1
+### Frontend
+
+- Angular 10.1.x
+- Angular Router + Route Guards
+- HttpClient + JWT interceptor
+
+### Backend
+
+- Java 17, Spring Boot 3.0.1
 - Spring Web, Spring Data JPA, Spring Security
 - PostgreSQL
 - JWT (`io.jsonwebtoken`)
-- Springdoc OpenAPI / Swagger UI
-- Maven
-
-## Project Structure
-
-- Backend app root: `springapp/`
-- Main application class: `springapp/src/main/java/com/examly/springapp/SpringappApplication.java`
+- Swagger / OpenAPI (`springdoc`)
 
 ## Prerequisites
 
+- Node.js + npm
 - JDK 17+
-- Maven (or use `mvnw` / `mvnw.cmd`)
-- PostgreSQL database
+- PostgreSQL
 
-## Environment Variables
+## Backend Setup (`springapp`)
 
-The app reads DB credentials from environment variables in `application.properties`:
-
-- `DB_URL`
-- `DB_USERNAME`
-- `DB_PASSWORD`
-
-Example (PowerShell):
+Set environment variables (PowerShell):
 
 ```powershell
 $env:DB_URL="jdbc:postgresql://localhost:5432/flightdb"
@@ -39,174 +39,128 @@ $env:DB_USERNAME="postgres"
 $env:DB_PASSWORD="your_password"
 ```
 
-## Run the Application
-
-From `springapp/`:
-
-```bash
-./mvnw spring-boot:run
-```
-
-On Windows:
+Run backend:
 
 ```bat
+cd springapp
 mvnw.cmd spring-boot:run
 ```
 
-Default server port: `8080`
+Backend URL: `http://localhost:8080`
 
-## API Documentation
+API docs:
 
 - Swagger UI: `http://localhost:8080/swagger-ui.html`
 - OpenAPI JSON: `http://localhost:8080/v3/api-docs`
 
-## Security
+## Frontend Setup (`angularapp`)
 
-- Public endpoints:
-	- `POST /api/register`
-	- `POST /api/login`
-	- Swagger/OpenAPI paths
-- All other endpoints require Bearer JWT.
-- JWT token is returned in login response (`token` field in `User` response).
-- Include header:
+Install and run:
+
+```bat
+cd angularapp
+npm install
+npm start
+```
+
+Frontend URL: `http://localhost:8081`
+
+Frontend API base URL is configured in `angularapp/src/app/app.constants.ts`:
+
+```ts
+export const APP_URL = 'http://localhost:8080/api';
+```
+
+## Full-Stack Run Order
+
+1. Start PostgreSQL.
+2. Start backend (`springapp`) on `8080`.
+3. Start frontend (`angularapp`) on `8081`.
+4. Open `http://localhost:8081`.
+
+## Authentication Flow
+
+- Public backend endpoints:
+  - `POST /api/register`
+  - `POST /api/login`
+- Login response includes JWT token (`token`).
+- Frontend stores `token`, `userId`, `username`, and `role` in `localStorage`.
+- `HttpIntercepterAuthService` automatically attaches:
 
 ```http
 Authorization: Bearer <token>
 ```
 
-## Data Model
+- Angular route guard (`AuthGuard`) enforces login and role-based routes.
 
-### User
+## Frontend Routes
 
-- `userId` (Long)
-- `email` (String)
-- `password` (String, stored encoded)
-- `username` (String)
-- `mobileNumber` (String)
-- `userRole` (String)
-- `token` (transient, returned during login)
+- `/home`
+- `/login`
+- `/register`
+- `/flight-list` (authenticated)
+- `/book-form` and `/book-form/:id` (authenticated)
+- `/my-history` (authenticated)
+- `/add-flight` and `/add-flight/:id` (authenticated, `ADMIN` only)
+- `/booking` (authenticated, `ADMIN` only)
 
-### Flight
+## Backend API Summary
 
-- `flightId` (Long)
-- `flightNumber` (String)
-- `airline` (String)
-- `departureLocation` (String)
-- `arrivalLocation` (String)
-- `departureTime` (String)
-- `arrivalTime` (String)
-- `price` (double)
-- `totalSeats` (int)
-
-### Booking
-
-- `bookingId` (Long)
-- `bookingDate` (Date)
-- `numberOfPassengers` (int)
-- `status` (String)
-- `userId` (Long)
-- `flight` (Many-to-One `Flight`)
-
-## API Endpoints
-
-Base URL: `http://localhost:8080`
+Base URL: `http://localhost:8080/api`
 
 ### Auth & Users
 
-- `POST /api/register` - Register a user
-- `POST /api/login` - Login and receive JWT token in response
-- `GET /api/user/{userId}` - Get user by ID
-- `GET /api/user` - Get all users
-
-Sample register/login payload:
-
-```json
-{
-	"email": "john@example.com",
-	"password": "password123",
-	"username": "john",
-	"mobileNumber": "9876543210",
-	"userRole": "ROLE_USER"
-}
-```
+- `POST /register`
+- `POST /login`
+- `GET /user/{userId}`
+- `GET /user`
 
 ### Flights
 
-- `POST /api/flights` - Create flight
-- `PUT /api/flights/{flightId}` - Update flight
-- `GET /api/flights` - List flights
-- `GET /api/flights/{flightId}` - Get flight by ID
-- `DELETE /api/flights/{flightId}` - Delete flight
-
-Sample flight payload:
-
-```json
-{
-	"flightNumber": "AI203",
-	"airline": "Air India",
-	"departureLocation": "Chennai",
-	"arrivalLocation": "Delhi",
-	"departureTime": "2026-02-20T10:30:00",
-	"arrivalTime": "2026-02-20T13:15:00",
-	"price": 6500.0,
-	"totalSeats": 120
-}
-```
+- `POST /flights`
+- `PUT /flights/{flightId}`
+- `GET /flights`
+- `GET /flights/{flightId}`
+- `DELETE /flights/{flightId}`
 
 ### Bookings
 
-- `POST /api/bookings` - Create booking (uses `BookingDTO`)
-- `GET /api/bookings` - Get bookings
-- `GET /api/bookings/all` - Get all bookings
-- `GET /api/bookings/{id}` - Get booking by ID
-- `GET /api/bookings/user/{userId}` - Get booking summary for user
-- `PUT /api/bookings/{id}/{status}` - Update booking status
+- `POST /bookings` (request body uses `BookingDTO`)
+- `GET /bookings`
+- `GET /bookings/all`
+- `GET /bookings/{id}`
+- `GET /bookings/user/{userId}`
+- `PUT /bookings/{id}/{status}`
 
-Booking create payload (`BookingDTO`):
+### Test Endpoints
 
-```json
-{
-	"flightId": 1,
-	"userId": 1,
-	"bookingDate": "2026-02-20",
-	"numberOfPassengers": 2,
-	"status": "CONFIRMED"
-}
-```
+- `GET /test/welcome`
+- `GET /test/flights`
 
-### Test
+## Core Domain Models
 
-- `GET /api/test/welcome` - Returns welcome message
-- `GET /api/test/flights` - Returns an empty list (placeholder endpoint)
+### User
 
-## Business Rules
+- `userId`, `email`, `password`, `username`, `mobileNumber`, `userRole`, `token`
 
-- Username must be unique on registration.
-- Password is encoded with BCrypt.
-- Booking creation validates seat availability:
-	- if requested seats exceed `flight.totalSeats`, API throws `SeatsExceededException`.
-	- on successful booking, seats are reduced from the flight.
+### Flight
 
-## Error Handling
+- `flightId`, `flightNumber`, `airline`, `departureLocation`, `arrivalLocation`, `departureTime`, `arrivalTime`, `price`, `totalSeats`
 
-Global exception handler currently maps these to HTTP 500 with message body:
+### Booking
 
-- `SeatsExceededException`
-- `UsernameAlreadyExistsException`
+- `bookingId`, `bookingDate`, `numberOfPassengers`, `status`, `userId`, `flight`
 
-## CORS
+## Business Rules & Errors
 
-Configured globally to allow:
+- Registration rejects duplicate username.
+- Password is stored using BCrypt hashing.
+- Booking creation checks seat availability and reduces available seats.
+- Global exception handling returns HTTP `500` for:
+  - `SeatsExceededException`
+  - `UsernameAlreadyExistsException`
 
-- Origins: `*`
-- Methods: `GET, POST, PUT, DELETE, OPTIONS`
-- Headers: `*`
+## Notes
 
-## Build & Test
-
-From `springapp/`:
-
-```bash
-./mvnw clean test
-./mvnw clean package
-```
+- CORS is open (`*`) in backend config.
+- Frontend service contains `deleteBooking(...)`, but backend controller currently has no `DELETE /bookings/{id}` endpoint.
